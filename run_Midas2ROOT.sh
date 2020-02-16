@@ -1,6 +1,7 @@
 #!/bin/bash
 
 DATA_PATH="/run/media/daniele/WD_IRB/data/2016_INFN_LNL_Ne_He/"
+RUN_PREFIX="R"
 
 first_run=$1
 
@@ -23,10 +24,15 @@ do
     echo "Error: Invalid run number" >&2; exit 1
   fi
   
-  for file_name in ${DATA_PATH}R${run_num}_*
+  for file_name in ${DATA_PATH}${RUN_PREFIX}${run_num}_*
   do
   
-    echo "Unpacking file $file_name..."
+    if [ ! -f $file_name ]; then
+      echo "Skipping run $run_num!"
+      continue
+    fi
+    run_name="${file_name##*/$RUN_PREFIX}"
+    echo "Unpacking file $run_name..."
     eval './exec_Midas2ROOT.exe --run=${file_name}'
   done
   
