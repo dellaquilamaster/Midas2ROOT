@@ -13,6 +13,15 @@
 #include <M2RRunInfo.h>
 #include <shared.h>
 
+void M2RPrintLogo() {
+  printf("\n\nMidas2ROOT\n");
+  printf("Created by Daniele Dell'Aquila (daniele.dellaquila@irb.hr)\n");
+  printf("A Universal unpacker for the Midas DAQ created for the Experimental Nuclear Clustering Group of the Rudjer Boskovic Institute.\n");
+  printf("v_2.0\n\n");
+  
+  return;
+}
+
 int ReadInput(int argc, char ** argv, std::string & Source)
 {
   int Nread=0;
@@ -31,6 +40,11 @@ int ReadInput(int argc, char ** argv, std::string & Source)
 
 int main (int argc, char ** argv)
 {
+  //
+  //Print logo
+  M2RPrintLogo();
+  //
+  
   //
   //Reading Input
   std::string Source;
