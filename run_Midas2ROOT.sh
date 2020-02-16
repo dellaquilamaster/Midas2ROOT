@@ -33,7 +33,7 @@ do
     fi
     run_name="${file_name##*/$RUN_PREFIX}"
     echo "Unpacking file $run_name..."
-    eval './exec_Midas2ROOT.exe --run=${file_name}'
+    eval './exec_Midas2ROOT.exe --run=${run_name}'
   done
   
 done
