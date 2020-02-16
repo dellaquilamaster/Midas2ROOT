@@ -2,7 +2,7 @@
 
 //____________________________________________________
 M2RReader::M2RReader() :
-fBlockLength(16384),
+fBlockLength(gRun->GetBlockSize()*1024),
 fNumCharRead(0),
 fNumCharUsefulRead(0),
 fNumBlocksRead(0),

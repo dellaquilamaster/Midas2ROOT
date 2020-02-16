@@ -10,6 +10,8 @@
 
 #include <M2RConverter.h>
 #include <M2RReader.h>
+#include <M2RRunInfo.h>
+#include <shared.h>
 
 int ReadInput(int argc, char ** argv, std::string & Source)
 {
@@ -30,16 +32,20 @@ int ReadInput(int argc, char ** argv, std::string & Source)
 int main (int argc, char ** argv)
 {
   //
-  //TEMPORARY: Folder Definitions
-  std::string fOutputFolder("/run/media/daniele/WD_IRB/analysis/2016_INFN_LNL_Ne_He/unpacked/");
-  //
-  
-  //
   //Reading Input
   std::string Source;
   if(ReadInput(argc,argv,Source)<=0) {
-    printf("Error: missing valid source file!\nPlease use --run=xxx command to specify an input file.\nAborting!\n"); 
+    printf("Error: missing valid source file!\nPlease use --run=xxx command to specify a run number.\nAborting!\n"); 
     exit(1);
+  }
+  //
+    
+  //
+  //Initializing run info class
+  gRun=new M2RRunInfo(Source.c_str());
+  if(gRun->InitClass("config/Midas2ROOT.conf")<=0)  {
+    printf("Error while intializing RunInfo class for run %s.\nAborting!",Source.c_str());
+    exit(2);
   }
   //
   
@@ -50,8 +56,8 @@ int main (int argc, char ** argv)
   
   //
   //Opening Input File
-  if(TheReader->Open(Source.c_str())==0) {
-    printf("Error: failed to open source file %s\nAborting!\n", Source.c_str()); 
+  if(TheReader->Open(gRun->GetRunFilePathName())==0) {
+    printf("Error: failed to open source file %s\nAborting!\n", gRun->GetRunFilePathName()); 
     exit(2);
   }
   //
@@ -68,9 +74,8 @@ int main (int argc, char ** argv)
   
   //
   //Initializing Output Tree
-  std::string fFileOutName(Form("%s%s.root",fOutputFolder.c_str(),Source.substr(Source.find_last_of('/')+1).c_str()));  
-  if (TheRootConverter->InitTree(fFileOutName.c_str())!=0) {
-    printf("Error: failed to create output file in folder %s.\nAborting!", fOutputFolder.c_str());
+  if (TheRootConverter->InitializeConverter()!=0) {
+    printf("Error: failed to create output file in folder %s.\nAborting!", gRun->GetM2RROOTFilePath());
     exit(3);
   }
   //
@@ -85,6 +90,6 @@ int main (int argc, char ** argv)
   TheRootConverter->EndProcess();
   //
  
-  printf("\nSuccessfully created file: %s\n\n", fFileOutName.c_str());
+  printf("\nSuccessfully created file: %s\n\n", TheRootConverter->GetOutputFileName());
   return 0;
 }

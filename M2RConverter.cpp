@@ -17,11 +17,16 @@ M2RConverter::~M2RConverter()
 }
 
 //____________________________________________________
-int M2RConverter::InitTree(const char * file_name)
-{
+int M2RConverter::InitializeConverter()
+{  
+  //
+  //Intializing output file name
+  fOutputFileName.assign(Form("%srun_%04d_%02d.root", gRun->GetM2RROOTFilePath(),gRun->GetRunNumber(),gRun->GetEvtFileNumber()));
+  //
+  
   //
   //Opening output ROOT file
-  fTheFile = new TFile(file_name, "RECREATE");
+  fTheFile = new TFile(fOutputFileName.c_str(), "RECREATE");
   //
   if(fTheFile->IsZombie()) {
     return -1; 
@@ -46,6 +51,12 @@ int M2RConverter::InitTree(const char * file_name)
 void M2RConverter::RegisterReader(M2RReader * NewReader)
 {
   fTheReader = NewReader;  
+}
+
+//____________________________________________________
+const char * M2RConverter::GetOutputFileName() const
+{
+  return fOutputFileName.c_str();
 }
 
 //____________________________________________________

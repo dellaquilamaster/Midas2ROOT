@@ -9,6 +9,9 @@
 #ifndef SHARED_H
 #define SHARED_H
 
+class M2RRunInfo;
+
+extern M2RRunInfo * gRun;
 extern const unsigned int MAX_MULT_ROOTEVENT;
 
 #endif

@@ -9,6 +9,9 @@
 #include <Bytes.h>
 #include <Byteswap.h>
 
+#include <M2RRunInfo.h>
+#include <shared.h>
+
 /* Midas buffer reader
  * See more about the Midas DAQ here: http://npg.dl.ac.uk/MIDAS/
  * 

@@ -15,7 +15,7 @@ M2RMIDASROOTEVENT_DICTO := M2RMidasRootEventDict.$(ObjSuf)
 M2RMIDASROOTEVENT_PCM   := M2RMidasRootEventDict$(PcmSuf)
 M2RMIDASROOTEVENT_HDRS  := M2RMidasRootEventLinkDef.$(DepSuf)
 
-OBJS      := $(ObjDir)M2RConverter.$(ObjSuf) $(ObjDir)M2RReader.$(ObjSuf) $(ObjDir)M2RMidasRootEvent.$(ObjSuf) $(ObjDir)shared.$(ObjSuf) $(ObjDir)$(M2RMIDASROOTEVENT_DICTO)
+OBJS      := $(ObjDir)M2RRunInfo.$(ObjSuf) $(ObjDir)M2RConverter.$(ObjSuf) $(ObjDir)M2RReader.$(ObjSuf) $(ObjDir)M2RMidasRootEvent.$(ObjSuf) $(ObjDir)shared.$(ObjSuf) $(ObjDir)$(M2RMIDASROOTEVENT_DICTO)
 
 DEPS      := $(_OBJS:.$(ObjSuf)=.$(DepSuf))
 
@@ -28,6 +28,9 @@ all: $(PROG)
 $(PROG): $(OBJS)
 		$(CXX) $(CXXFLAGS) -o ${@}.$(ExeSuf) ${@}.$(SrcSuf) $^ $(SYSLIB) $(CFLAGS) $(RLIBS)
 		
+
+$(ObjDir)M2RRunInfo.$(ObjSuf): M2RRunInfo.$(SrcSuf)  M2RRunInfo.$(DepSuf)
+	$(CXX) $(CXXFLAGS) -c  M2RRunInfo.$(SrcSuf) -o $(ObjDir)M2RRunInfo.$(ObjSuf) $(SYSLIB) $(CFLAGS) $(RLIBS)	
 
 $(ObjDir)M2RConverter.$(ObjSuf): M2RConverter.$(SrcSuf)  M2RConverter.$(DepSuf)
 	$(CXX) $(CXXFLAGS) -c  M2RConverter.$(SrcSuf) -o $(ObjDir)M2RConverter.$(ObjSuf) $(SYSLIB) $(CFLAGS) $(RLIBS)	
