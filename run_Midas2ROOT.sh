@@ -20,6 +20,10 @@ if [ ! -z "$3" ]; then
   parallel_processes=$3
 fi
 
+if [ -f "parallel_runs.txt" ]; then
+  rm -f parallel_runs.txt
+fi
+
 for run_num in `seq $first_run $last_run`
 do
   re='^[0-9]+$'
