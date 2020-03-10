@@ -1,7 +1,17 @@
 #!/bin/bash
 
-DATA_PATH="/run/media/daniele/WD_IRB/data/2016_INFN_LNL_Ne_He/"
-RUN_PREFIX="R"
+#extracting information from configuration file from config/Midas2ROOT.conf
+while IFS= read -r line;do
+    line="${line%%'*'*}"
+    fields=($(printf "%s" "$line"|cut --output-delimiter=' ' -f1-))
+    if [ ${fields[1]} ] && [ ${fields[1]} = "BINARY_FILE_PATH" ] ; then
+      DATA_PATH=$(echo ${fields[2]} | sed 's/[\"]//g')
+    fi
+    if [ ${fields[1]} ] && [ ${fields[1]} = "RUN_FILENAME_PREFIX" ] ; then
+      RUN_PREFIX=$(echo ${fields[2]} | sed 's/[\"]//g')
+    fi
+done < config/Midas2ROOT.conf
+##########
 
 first_run=$1
 
